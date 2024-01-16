@@ -1,0 +1,5 @@
+channels:
+  - https://staging.continuum.io/prefect/fs/doctest-feedstock/pr1/c3011c4
+
+upload_channels:
+  - sfe1ed40

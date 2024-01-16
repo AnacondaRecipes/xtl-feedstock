@@ -19,8 +19,17 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - make  # [unix]
+  run:
+    - nlohmann_json
 
 test:
+  source_files:
+    - test
+  requires:
+    - doctest
+    - {{ compiler('cxx') }}
+    - ninja
+    - cmake
   commands:
     - test -f ${PREFIX}/include/xtl/xbasic_fixed_string.hpp  # [unix]
     - test -f ${PREFIX}/share/cmake/xtl/xtlConfig.cmake  # [unix]
@@ -28,7 +37,10 @@ test:
     - if not exist %LIBRARY_PREFIX%\include\xtl\xbasic_fixed_string.hpp (exit 1)  # [win]
     - if not exist %LIBRARY_PREFIX%\share\cmake\xtl\xtlConfig.cmake (exit 1)  # [win]
     - if not exist %LIBRARY_PREFIX%\share\cmake\xtl\xtlConfigVersion.cmake (exit 1)  # [win]
-
+    - cmake -S test -B test -G Ninja
+    - ninja -C test test_xtl
+    - ./test/test_xtl  # [not win]
+    - .\test\test_xtl  # [win]
 about:
   home: https://github.com/xtensor-stack/xtl
   license: BSD-3-Clause
